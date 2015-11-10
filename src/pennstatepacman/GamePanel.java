@@ -3,16 +3,20 @@ package pennstatepacman;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
-public class GamePanel extends JPanel
+public class GamePanel extends JPanel implements ActionListener
 {
     final int SCREEN_WIDTH = 850;
     final int SCREEN_HEIGHT = 650;
     Player player;
     Ghoul ghoul;
+    Timer t = new Timer(30, this);
     
     public GamePanel()
     {
@@ -27,6 +31,7 @@ public class GamePanel extends JPanel
         addKeyListener(new TAdapter());
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setVisible(true);
+        t.start();
     }
     
     @Override
@@ -47,8 +52,6 @@ public class GamePanel extends JPanel
         {
             player.keyReleased(ke);
             player.move();
-            ghoul.decideMove(player.getX(), player.getY());//for testing
-            ghoul.move();//for testing
             repaint();
         }
         
@@ -57,8 +60,18 @@ public class GamePanel extends JPanel
         {
             player.keyPressed(ke);
             player.move();
-            ghoul.decideMove(player.getX(), player.getY());//for testing
-            ghoul.move();//for testing
+            repaint();
+        }
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent ae)
+    {
+        Object o = ae.getSource();
+        if(o == t)
+        {
+            ghoul.decideMove(player.getX(), player.getY());
+            ghoul.move();
             repaint();
         }
     }

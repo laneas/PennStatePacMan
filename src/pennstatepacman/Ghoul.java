@@ -3,6 +3,7 @@ package pennstatepacman;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
 /**
@@ -25,7 +26,7 @@ public class Ghoul
     {
         x = xLocation;
         y = yLocation;
-        speed = 5; //determines how far the player moves with each cycle
+        speed = 2; //determines how far the player moves with each cycle
         moveX = 0;
         moveY = 0;
         lives = 3;
@@ -67,22 +68,22 @@ public class Ghoul
     */
     public void decideMove(int playerX, int playerY)
     {   
-        if(y > playerY)
+        if(y > playerY + 10)
         {
             moveY = -speed;
             moveX = 0;
         }
-        else if(y < playerY)
+        else if(y < playerY - 10)
         {
             moveY = speed;
             moveX = 0;
         }
-        else if(x > playerX)
+        else if(x > playerX - 10)
         {
             moveX = -speed;
             moveY = 0;
         }
-        else if(x < playerX)
+        else if(x < playerX + 10)
         {
             moveX = speed;
             moveY = 0;
