@@ -16,6 +16,7 @@ public class GamePanel extends JPanel implements ActionListener
     final int SCREEN_HEIGHT = 650;
     Player player;
     Ghoul ghoul;
+    Ghoul ghoul2;
     Timer t = new Timer(30, this);
     
     public GamePanel()
@@ -28,6 +29,7 @@ public class GamePanel extends JPanel implements ActionListener
     {
         player = new Player(100, 100);
         ghoul = new Ghoul(500, 500);
+        ghoul2 = new Ghoul(500, 100);
         addKeyListener(new TAdapter());
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setVisible(true);
@@ -41,6 +43,7 @@ public class GamePanel extends JPanel implements ActionListener
        
        g.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
        g.drawImage(ghoul.getImage(), ghoul.getX(), ghoul.getY(), ghoul.getWidth(), ghoul.getHeight(), this);
+       g.drawImage(ghoul2.getImage(), ghoul2.getX(), ghoul2.getY(), ghoul2.getWidth(), ghoul2.getHeight(), this);
                
        Toolkit.getDefaultToolkit().sync();
     }
@@ -72,6 +75,8 @@ public class GamePanel extends JPanel implements ActionListener
         {
             ghoul.decideMove(player.getX(), player.getY());
             ghoul.move();
+            ghoul2.decideMove(player.getX(), player.getY());
+            ghoul2.move();
             repaint();
         }
     }
