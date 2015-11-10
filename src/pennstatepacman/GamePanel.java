@@ -9,8 +9,9 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel
 {
-    final int SCREEN_WIDTH = 800;
-    final int SCREEN_HEIGHT = 600;
+    final int SCREEN_WIDTH = 850;
+    final int SCREEN_HEIGHT = 650;
+    Player player;
     
     public GamePanel()
     {
@@ -20,6 +21,7 @@ public class GamePanel extends JPanel
     
     public void setup()
     {
+        player = new Player(100, 100);
         addKeyListener(new TAdapter());
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setVisible(true);
@@ -30,6 +32,8 @@ public class GamePanel extends JPanel
     {
        super.paintComponent(g); 
        
+       g.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
+               
        Toolkit.getDefaultToolkit().sync();
     }
     
@@ -38,14 +42,16 @@ public class GamePanel extends JPanel
         @Override
         public void keyReleased(KeyEvent ke)
         {
-            //check for player movements
+            player.keyReleased(ke);
+            player.move();
             repaint();
         }
         
         @Override
         public void keyPressed(KeyEvent ke)
         {
-            //check for player movements
+            player.keyPressed(ke);
+            player.move();
             repaint();
         }
     }
