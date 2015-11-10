@@ -45,9 +45,9 @@ public class GamePanel extends JPanel
         @Override
         public void keyReleased(KeyEvent ke)
         {
-            ghoul.decideMove();//for testing
             player.keyReleased(ke);
             player.move();
+            ghoul.decideMove(player.getX(), player.getY());//for testing
             ghoul.move();//for testing
             repaint();
         }
@@ -55,9 +55,9 @@ public class GamePanel extends JPanel
         @Override
         public void keyPressed(KeyEvent ke)
         {
-            ghoul.decideMove();//for testing
             player.keyPressed(ke);
             player.move();
+            ghoul.decideMove(player.getX(), player.getY());//for testing
             ghoul.move();//for testing
             repaint();
         }

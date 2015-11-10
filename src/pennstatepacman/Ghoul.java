@@ -65,26 +65,24 @@ public class Ghoul
     For testing purposes only
     Not to be implemented
     */
-    public void decideMove()
-    {
-        int rand = 1 + (int)(Math.random() * ((4 - 1) + 1));
-        
-        if(rand == 1)
+    public void decideMove(int playerX, int playerY)
+    {   
+        if(y > playerY)
         {
             moveY = -speed;
             moveX = 0;
         }
-        if(rand == 2)
+        else if(y < playerY)
         {
             moveY = speed;
             moveX = 0;
         }
-        if(rand == 3)
+        else if(x > playerX)
         {
             moveX = -speed;
             moveY = 0;
         }
-        if(rand == 4)
+        else if(x < playerX)
         {
             moveX = speed;
             moveY = 0;
