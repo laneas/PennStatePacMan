@@ -17,10 +17,9 @@ public class GamePanel extends JPanel implements ActionListener
     final int SCREEN_WIDTH = 850;
     final int SCREEN_HEIGHT = 650;
     Player player;
-    Ghoul ghoul;
-    Ghoul ghoul2;
     Timer t = new Timer(30, this);
     ArrayList<Rectangle> level;
+    ArrayList<Ghoul> ghouls;
     
     public GamePanel()
     {
@@ -31,14 +30,14 @@ public class GamePanel extends JPanel implements ActionListener
     public void setup()
     {
         level = new ArrayList<Rectangle>();
-        player = new Player(100, 100);
-        ghoul = new Ghoul(500, 500);
-        ghoul2 = new Ghoul(500, 100);
+        ghouls = new ArrayList<Ghoul>();
+        player = new Player(300, 300);
         addKeyListener(new TAdapter());
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setVisible(true);
         t.start();
         createLevel();
+        createEnemies();
     }
     
     @Override
@@ -47,13 +46,16 @@ public class GamePanel extends JPanel implements ActionListener
        super.paintComponent(g); 
        
        g.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
-       g.drawImage(ghoul.getImage(), ghoul.getX(), ghoul.getY(), ghoul.getWidth(), ghoul.getHeight(), this);
-       g.drawImage(ghoul2.getImage(), ghoul2.getX(), ghoul2.getY(), ghoul2.getWidth(), ghoul2.getHeight(), this);
        
        for(int i = 0; i < level.size(); i++)
        {
            Rectangle r = level.get(i);
            g.fillRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
+       }
+       
+       for(int i = 0; i < ghouls.size(); i++)
+       {
+           g.drawImage(ghouls.get(i).getImage(), ghouls.get(i).getX(), ghouls.get(i).getY(), ghouls.get(i).getWidth(), ghouls.get(i).getHeight(), this);
        }
                
        Toolkit.getDefaultToolkit().sync();
@@ -70,6 +72,18 @@ public class GamePanel extends JPanel implements ActionListener
         level.add(rightSide);
         level.add(topSide);
         level.add(bottomSide);
+    }
+    
+    public void createEnemies()
+    {
+            Ghoul ghoul1 = new Ghoul(10 ,10);
+            Ghoul ghoul2 = new Ghoul(558, 10);
+            Ghoul ghoul3 = new Ghoul(10, 580);
+            Ghoul ghoul4 = new Ghoul(558, 580);
+            ghouls.add(ghoul1);
+            ghouls.add(ghoul2);
+            ghouls.add(ghoul3);
+            ghouls.add(ghoul4);
     }
     
     private class TAdapter extends KeyAdapter
@@ -97,10 +111,11 @@ public class GamePanel extends JPanel implements ActionListener
         Object o = ae.getSource();
         if(o == t)
         {
-            ghoul.decideMove(player.getX(), player.getY());
-            ghoul.move();
-            ghoul2.decideMove(player.getX(), player.getY());
-            ghoul2.move();
+            for(int i = 0; i < ghouls.size(); i++)
+            {
+                ghouls.get(i).decideMove(player.getX(), player.getY());
+                ghouls.get(i).move();
+            }
             repaint();
         }
     }

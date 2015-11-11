@@ -93,22 +93,22 @@ public class Player
         
         if(key == KeyEvent.VK_UP)
         {
-            moveY = 0;
+            moveY = -speed;
             moveX = 0;
         }
         if(key == KeyEvent.VK_DOWN)
         {
-            moveY = 0;
+            moveY = speed;
             moveX = 0;
         }
         if(key == KeyEvent.VK_LEFT)
         {
-            moveX = 0;
+            moveX = -speed;
             moveY = 0;
         }
         if(key == KeyEvent.VK_RIGHT)
         {
-            moveX = 0;
+            moveX = speed;
             moveY = 0;
         }
     }

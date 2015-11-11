@@ -61,11 +61,6 @@ public class Ghoul
         if(y < 1){y = 1;}
     }
     
-    /*
-    Will randomly move the Ghoul Character
-    For testing purposes only
-    Not to be implemented
-    */
     public void decideMove(int playerX, int playerY)
     {   
         if(y > playerY + 10)
