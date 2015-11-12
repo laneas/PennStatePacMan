@@ -94,6 +94,13 @@ public class GamePanel extends JPanel implements ActionListener
                player.undoMove();
            }
        }
+       for(int i = 0; i < ghouls.size(); i++)
+       {
+           if(r.intersects(ghouls.get(i).getBounds()))
+           {
+               
+           }
+       }
     }
     
     private class TAdapter extends KeyAdapter
