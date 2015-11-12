@@ -21,7 +21,6 @@ public class Ghoul
     protected int moveY;
     private int width;
     private int height;
-    private int lives;
     private int score;
     
     public Ghoul(int xLocation, int yLocation)
@@ -31,7 +30,6 @@ public class Ghoul
         speed = 2; //determines how far the player moves with each cycle
         moveX = 0;
         moveY = 0;
-        lives = 3;
         score = 0;
         setImage("src//pennstatepacman//images//testpac.png");//<--------Change this value once we have an image for the player
     }
@@ -56,8 +54,8 @@ public class Ghoul
     */
     public void move()
     {
-        x = lastX;
-        y = lastY;
+        lastX = x;
+        lastY = y;
         x = x + moveX;
         y = y + moveY;
         
@@ -118,17 +116,5 @@ public class Ghoul
     public Rectangle getBounds()
     {
         return new Rectangle(x, y, width, height);
-    }
-    
-    public boolean checkCondition()
-    {
-        if(lives <= 0)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
     }
 }

@@ -143,6 +143,16 @@ public class Player
         return width;
     }
     
+    public void setLives(int theLife)
+    {
+        lives = theLife;
+    }
+    
+    public int getLives()
+    {
+        return lives;
+    }
+    
     public Rectangle getBounds()
     {
         return new Rectangle(x, y, width, height);

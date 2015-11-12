@@ -85,20 +85,35 @@ public class GamePanel extends JPanel implements ActionListener
             ghouls.add(ghoul4);
     }
     
-    public void checkCollisions(Rectangle r)
+    public void checkCollisions()
     {
-       for(int i = 0; i < level.size(); i++)
+       for(int i = 0; i < level.size(); i++)//Wall Check
        {
-           if(r.intersects(level.get(i)))
+           if(player.getBounds().intersects(level.get(i))) //Checks to see if the player intersects the wall
            {
                player.undoMove();
            }
-       }
-       for(int i = 0; i < ghouls.size(); i++)
-       {
-           if(r.intersects(ghouls.get(i).getBounds()))
+           for(int j = 0; j < ghouls.size(); j++)//Checks each ghoul to see if they intersect the wall
            {
-               
+               if(ghouls.get(j).getBounds().intersects(level.get(i)))
+               {
+                   ghouls.get(j).undoMove();
+               }
+           }
+       }
+       
+       for(int i = 0; i < ghouls.size(); i++)//check to see if the player intersects the ghoul or ghoul intersects ghoul
+       {
+           if(player.getBounds().intersects(ghouls.get(i).getBounds()))
+           {
+               player.setLives(player.getLives() - 1);
+           }
+           for(int j = 0; j < ghouls.size(); j++)
+           {
+               if(i != j && ghouls.get(i).getBounds().intersects(ghouls.get(j).getBounds()))
+               {
+                   ghouls.get(i).undoMove();
+               }
            }
        }
     }
@@ -132,7 +147,6 @@ public class GamePanel extends JPanel implements ActionListener
             {
                 ghouls.get(i).decideMove(player.getX(), player.getY());
                 ghouls.get(i).move();
-                checkCollisions(player.getBounds());
             }
             repaint();
         }
