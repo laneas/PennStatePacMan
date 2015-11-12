@@ -61,7 +61,6 @@ public class GamePanel extends JPanel implements ActionListener
        Toolkit.getDefaultToolkit().sync();
     }
     
-    
     public void createLevel()
     {   
         Rectangle leftSide = new Rectangle(0, 0, 10, 600);
@@ -84,6 +83,17 @@ public class GamePanel extends JPanel implements ActionListener
             ghouls.add(ghoul2);
             ghouls.add(ghoul3);
             ghouls.add(ghoul4);
+    }
+    
+    public void checkCollisions(Rectangle r)
+    {
+       for(int i = 0; i < level.size(); i++)
+       {
+           if(r.intersects(level.get(i)))
+           {
+               player.undoMove();
+           }
+       }
     }
     
     private class TAdapter extends KeyAdapter
@@ -115,6 +125,7 @@ public class GamePanel extends JPanel implements ActionListener
             {
                 ghouls.get(i).decideMove(player.getX(), player.getY());
                 ghouls.get(i).move();
+                checkCollisions(player.getBounds());
             }
             repaint();
         }

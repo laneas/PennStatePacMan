@@ -13,6 +13,8 @@ public class Player
 {
     protected int x;
     protected int y;
+    protected int lastX;
+    protected int lastY;
     protected int speed;
     private Image image;
     protected int moveX;
@@ -54,11 +56,19 @@ public class Player
     */
     public void move()
     {
+        lastX = x;
+        lastY = y;
         x = x + moveX;
         y = y + moveY;
         
         if(x < 1){x = 1;}
         if(y < 1){y = 1;}
+    }
+    
+    public void undoMove()
+    {
+        x = lastX;
+        y = lastY;
     }
     
     public void keyPressed(KeyEvent ke)
