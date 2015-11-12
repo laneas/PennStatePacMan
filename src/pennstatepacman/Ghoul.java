@@ -29,10 +29,10 @@ public class Ghoul
     {
         x = xLocation;
         y = yLocation;
-        speed = 2; //determines how far the player moves with each cycle
+        speed = 1; //determines how far the player moves with each cycle
         moveX = 0;
         moveY = 0;
-        xcheck = 0;
+        xcheck = 1;
         ycheck = 0;
         score = 0;
         setImage("src//pennstatepacman//images//testpac.png");//<--------Change this value once we have an image for the player
@@ -71,36 +71,36 @@ public class Ghoul
     {
         x = lastX;
         y = lastY;
-        ycheck--;
+        ycheck++;
         xcheck--;
-        if(ycheck < 0){ycheck = 1;}
+        if(ycheck > 1){ycheck = 0;}
         if(xcheck < 0){xcheck = 1;}
     }
     
     public void decideMove(int playerX, int playerY)
     {   
-        if(y > playerY + 5 && xcheck == 0)
+        if(y > playerY && xcheck == 0)
         {
             moveY = -speed;
             moveX = 0;
             ycheck++;
             if(ycheck > 1){ycheck = 0;}
         }
-        if(y < playerY - 5 && xcheck == 0)
+        if(y < playerY && xcheck == 0)
         {
             moveY = speed;
             moveX = 0;
             ycheck++;
             if(ycheck > 1){ycheck = 0;}
         }
-        if(x > playerX - 5 && ycheck == 0)
+        if(x > playerX && ycheck == 0)
         {
             moveX = -speed;
             moveY = 0;
             xcheck++;
             if(xcheck > 1){xcheck = 0;}
         }
-        if(x < playerX + 5 && ycheck == 0)
+        if(x < playerX && ycheck == 0)
         {
             moveX = speed;
             moveY = 0;
