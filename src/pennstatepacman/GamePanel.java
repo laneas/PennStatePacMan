@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements ActionListener
     final int SCREEN_WIDTH = 850;
     final int SCREEN_HEIGHT = 650;
     Player player;
-    Timer t = new Timer(30, this);
+    Timer t = new Timer(15, this);
     ArrayList<Rectangle> level;
     ArrayList<Ghoul> ghouls;
     
@@ -77,8 +77,8 @@ public class GamePanel extends JPanel implements ActionListener
     {
             Ghoul ghoul1 = new Ghoul(10 ,10);
             Ghoul ghoul2 = new Ghoul(558, 10);
-            Ghoul ghoul3 = new Ghoul(10, 580);
-            Ghoul ghoul4 = new Ghoul(558, 580);
+            Ghoul ghoul3 = new Ghoul(10, 558);
+            Ghoul ghoul4 = new Ghoul(558, 558);
             ghouls.add(ghoul1);
             ghouls.add(ghoul2);
             ghouls.add(ghoul3);
@@ -148,6 +148,7 @@ public class GamePanel extends JPanel implements ActionListener
                 ghouls.get(i).decideMove(player.getX(), player.getY());
                 ghouls.get(i).move();
             }
+            checkCollisions();
             repaint();
         }
     }
