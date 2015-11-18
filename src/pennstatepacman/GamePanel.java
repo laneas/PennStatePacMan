@@ -67,6 +67,7 @@ public class GamePanel extends JPanel implements ActionListener
         Rectangle rightSide = new Rectangle(590, 0, 10, 600);
         Rectangle topSide = new Rectangle(0, 0, 600, 10);
         Rectangle bottomSide = new Rectangle(0, 600, 600, 10);
+        
         Rectangle r1 = new Rectangle(40, 40, 60, 120);
         Rectangle r2 = new Rectangle(120, 40, 60, 120);
         Rectangle r3 = new Rectangle(200, 40, 80, 120);
@@ -83,11 +84,19 @@ public class GamePanel extends JPanel implements ActionListener
         
         Rectangle r13 = new Rectangle(40, 320, 60, 100);
         Rectangle r14 = new Rectangle(120, 320, 60, 100);
-        Rectangle r15 = new Rectangle(200, 300, 60, 100);
-        Rectangle r16 = new Rectangle(260, 360, 80, 40);
-        Rectangle r17 = new Rectangle(320, 300, 60, 100);
+        Rectangle r15 = new Rectangle(200, 300, 60, 120);
+        Rectangle r16 = new Rectangle(260, 360, 80, 60);
+        Rectangle r17 = new Rectangle(320, 300, 60, 120);
         Rectangle r18 = new Rectangle(400, 320, 60, 100);
         Rectangle r19 = new Rectangle(480, 320, 60, 100);
+        
+        Rectangle r20 = new Rectangle(40, 440, 60, 120);
+        Rectangle r21 = new Rectangle(120, 440, 60, 120);
+        Rectangle r22 = new Rectangle(200, 440, 80, 120);
+        Rectangle r23 = new Rectangle(300, 440, 80, 120);
+        Rectangle r24 = new Rectangle(400, 440, 60, 120);
+        Rectangle r25 = new Rectangle(480, 440, 60, 120);
+        
         level.add(leftSide);
         level.add(rightSide);
         level.add(topSide);
@@ -113,6 +122,13 @@ public class GamePanel extends JPanel implements ActionListener
         level.add(r17);
         level.add(r18);
         level.add(r19);
+        
+        level.add(r20);
+        level.add(r21);
+        level.add(r22);
+        level.add(r23);
+        level.add(r24);
+        level.add(r25);
     }
     
     public void createEnemies()
