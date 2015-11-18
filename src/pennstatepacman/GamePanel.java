@@ -1,5 +1,6 @@
 package pennstatepacman;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -35,6 +36,7 @@ public class GamePanel extends JPanel implements ActionListener
         addKeyListener(new TAdapter());
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setVisible(true);
+        setBackground(new Color(255, 250, 244));
         t.start();
         createLevel();
         createEnemies();
@@ -43,7 +45,8 @@ public class GamePanel extends JPanel implements ActionListener
     @Override
     public void paintComponent(Graphics g)
     {
-       super.paintComponent(g); 
+       super.paintComponent(g);
+       g.setColor(new Color(24, 33, 133));
        
        g.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
        
@@ -63,44 +66,48 @@ public class GamePanel extends JPanel implements ActionListener
     
     public void createLevel()
     {   
+        int mx = 0;
+        int my = 0;
+        
         Rectangle leftSide = new Rectangle(0, 0, 10, 600);
         Rectangle rightSide = new Rectangle(590, 0, 10, 600);
         Rectangle topSide = new Rectangle(0, 0, 600, 10);
         Rectangle bottomSide = new Rectangle(0, 600, 600, 10);
         
-        Rectangle r1 = new Rectangle(40, 40, 60, 120);
-        Rectangle r2 = new Rectangle(120, 40, 60, 120);
-        Rectangle r3 = new Rectangle(200, 40, 80, 120);
-        Rectangle r4 = new Rectangle(300, 40, 80, 120);
-        Rectangle r5 = new Rectangle(400, 40, 60, 120);
-        Rectangle r6 = new Rectangle(480, 40, 60, 120);
+        Rectangle r1 = new Rectangle(40, 40, 60 - mx, 120 - my);
+        Rectangle r2 = new Rectangle(120, 40, 60 - mx, 120 - my);
+        Rectangle r3 = new Rectangle(200, 40, 80 - mx, 120 - my);
+        Rectangle r4 = new Rectangle(300, 40, 80 - mx, 120 - my);
+        Rectangle r5 = new Rectangle(400, 40, 60 - mx, 120 - my);
+        Rectangle r6 = new Rectangle(480, 40, 60 - mx, 120 - my);
         
-        Rectangle r7 = new Rectangle(40, 180, 60, 120);
-        Rectangle r8 = new Rectangle(120, 180, 60, 120);
-        Rectangle r9 = new Rectangle(200, 180, 80, 120);
-        Rectangle r10 = new Rectangle(300, 180, 80, 120);
-        Rectangle r11 = new Rectangle(400, 180, 60, 120);
-        Rectangle r12 = new Rectangle(480, 180, 60, 120);
+        Rectangle r7 = new Rectangle(40, 180, 60 - mx, 120 - my);
+        Rectangle r8 = new Rectangle(120, 180, 60 - mx, 120 - my);
+        Rectangle r9 = new Rectangle(200, 180, 80 - mx, 120 - my);
+        Rectangle r10 = new Rectangle(300, 180, 80 - mx, 120 - my);
+        Rectangle r11 = new Rectangle(400, 180, 60 - mx, 120 - my);
+        Rectangle r12 = new Rectangle(480, 180, 60 - mx, 120 - my);
         
-        Rectangle r13 = new Rectangle(40, 320, 60, 100);
-        Rectangle r14 = new Rectangle(120, 320, 60, 100);
-        Rectangle r15 = new Rectangle(200, 300, 60, 120);
-        Rectangle r16 = new Rectangle(260, 360, 80, 60);
-        Rectangle r17 = new Rectangle(320, 300, 60, 120);
-        Rectangle r18 = new Rectangle(400, 320, 60, 100);
-        Rectangle r19 = new Rectangle(480, 320, 60, 100);
+        Rectangle r13 = new Rectangle(40, 320, 60 - mx, 100 - my);
+        Rectangle r14 = new Rectangle(120, 320, 60 - mx, 100 - my);
+        Rectangle r15 = new Rectangle(200, 300, 60 - mx, 120 - my);
+        Rectangle r16 = new Rectangle(260, 360, 80 - mx, 60 - my);
+        Rectangle r17 = new Rectangle(320, 300, 60 - mx, 120 - my);
+        Rectangle r18 = new Rectangle(400, 320, 60 - mx, 100 - my);
+        Rectangle r19 = new Rectangle(480, 320, 60 - mx, 100 - my);
         
-        Rectangle r20 = new Rectangle(40, 440, 60, 120);
-        Rectangle r21 = new Rectangle(120, 440, 60, 120);
-        Rectangle r22 = new Rectangle(200, 440, 80, 120);
-        Rectangle r23 = new Rectangle(300, 440, 80, 120);
-        Rectangle r24 = new Rectangle(400, 440, 60, 120);
-        Rectangle r25 = new Rectangle(480, 440, 60, 120);
+        Rectangle r20 = new Rectangle(40, 440, 60 - mx, 120 - my);
+        Rectangle r21 = new Rectangle(120, 440, 60 - mx, 120 - my);
+        Rectangle r22 = new Rectangle(200, 440, 80 - mx, 120 - my);
+        Rectangle r23 = new Rectangle(300, 440, 80 - mx, 120 - my);
+        Rectangle r24 = new Rectangle(400, 440, 60 - mx, 120 - my);
+        Rectangle r25 = new Rectangle(480, 440, 60 - mx, 120 - my);
         
         level.add(leftSide);
         level.add(rightSide);
         level.add(topSide);
         level.add(bottomSide);
+        
         level.add(r1);
         level.add(r2);
         level.add(r3);
@@ -162,7 +169,7 @@ public class GamePanel extends JPanel implements ActionListener
        
        for(int i = 0; i < ghouls.size(); i++)//check to see if the player intersects the ghoul or ghoul intersects ghoul
        {
-           if(player.getBounds().intersects(ghouls.get(i).getBounds()))
+           if(player.getBounds().intersects(ghouls.get(i).getBounds()))//player check
            {
                player.setLives(player.getLives() - 1);
            }
@@ -170,7 +177,7 @@ public class GamePanel extends JPanel implements ActionListener
            {
                if(i != j && ghouls.get(i).getBounds().intersects(ghouls.get(j).getBounds()))
                {
-                   ghouls.get(i).undoMove();
+                   ghouls.get(i).undoMove();//ghoul check
                }
            }
        }

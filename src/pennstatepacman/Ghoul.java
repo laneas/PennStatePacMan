@@ -21,9 +21,10 @@ public class Ghoul
     protected int moveY;
     private int width;
     private int height;
-    private int score;
     int xcheck;
     int ycheck;
+    int xuncheck;
+    int yuncheck;
     
     public Ghoul(int xLocation, int yLocation)
     {
@@ -32,9 +33,8 @@ public class Ghoul
         speed = 1; //determines how far the player moves with each cycle
         moveX = 0;
         moveY = 0;
-        xcheck = 1;
+        xcheck = 0;
         ycheck = 0;
-        score = 0;
         setImage("src//pennstatepacman//images//testpac.png");//<--------Change this value once we have an image for the player
     }
     
@@ -50,16 +50,13 @@ public class Ghoul
     {
         return image;
     }
-    
-    /*
-    Note about move():
-    As of now, move will only move the player for however long the button is held.
-    We must ask the group if they want continous movement, or the ability to stop.
-    */
+
     public void move()
     {
         lastX = x;
         lastY = y;
+        xuncheck = xcheck;
+        yuncheck = ycheck;
         x = x + moveX;
         y = y + moveY;
         
@@ -71,10 +68,8 @@ public class Ghoul
     {
         x = lastX;
         y = lastY;
-        ycheck++;
-        xcheck--;
-        if(ycheck > 1){ycheck = 0;}
-        if(xcheck < 0){xcheck = 1;}
+        xcheck = xuncheck;
+        ycheck = yuncheck;
     }
     
     public void decideMove(int playerX, int playerY)
