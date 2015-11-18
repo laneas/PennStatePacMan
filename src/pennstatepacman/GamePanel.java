@@ -141,9 +141,13 @@ public class GamePanel extends JPanel implements ActionListener
     public void createEnemies()
     {
             Ghoul ghoul1 = new Ghoul(10 ,10);
+                ghoul1.setImage("src//pennstatepacman//images//Ill.png");
             Ghoul ghoul2 = new Ghoul(558, 10);
+                ghoul2.setImage("src//pennstatepacman//images//msu.png");
             Ghoul ghoul3 = new Ghoul(10, 558);
+                ghoul3.setImage("src//pennstatepacman//images//msu.png");
             Ghoul ghoul4 = new Ghoul(558, 558);
+                ghoul4.setImage("src//pennstatepacman//images//Ill.png");
             ghouls.add(ghoul1);
             ghouls.add(ghoul2);
             ghouls.add(ghoul3);

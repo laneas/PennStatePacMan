@@ -33,7 +33,7 @@ public class Player
         moveY = 0;
         lives = 3;
         score = 0;
-        setImage("src//pennstatepacman//images//testpac.png");//<--------Change this value once we have an image for the player
+        setImage("src//pennstatepacman//images//lion.png");//<--------Change this value once we have an image for the player
     }
     
     public void setImage(String imageLocation)

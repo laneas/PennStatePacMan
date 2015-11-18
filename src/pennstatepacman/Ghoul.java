@@ -35,7 +35,7 @@ public class Ghoul
         moveY = 0;
         xcheck = 0;
         ycheck = 0;
-        setImage("src//pennstatepacman//images//testpac.png");//<--------Change this value once we have an image for the player
+        //setImage("src//pennstatepacman//images//testpac.png");//<--------Change this value once we have an image for the player
     }
     
     public void setImage(String imageLocation)
