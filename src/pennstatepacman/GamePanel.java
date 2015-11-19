@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements ActionListener
     Timer t = new Timer(10, this);
     ArrayList<Rectangle> level;
     ArrayList<Ghoul> ghouls;
+    ArrayList<Grass> grass;
     
     public GamePanel()
     {
@@ -32,6 +33,7 @@ public class GamePanel extends JPanel implements ActionListener
     {
         level = new ArrayList<Rectangle>();
         ghouls = new ArrayList<Ghoul>();
+        grass = new ArrayList<Grass>();
         player = new Player(280, 320);
         addKeyListener(new TAdapter());
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -40,12 +42,21 @@ public class GamePanel extends JPanel implements ActionListener
         t.start();
         createLevel();
         createEnemies();
+        createGrass();
+        
     }
     
     @Override
     public void paintComponent(Graphics g)
     {
        super.paintComponent(g);
+       for(int i= 0; i< grass.size(); i++)
+       {
+           if(grass.get(i).getVis())
+           {
+             g.drawImage(grass.get(i).getImage(), grass.get(i).getX(), grass.get(i).getY(), grass.get(i).getWidth(), grass.get(i).getHeight(), this);
+           }
+       }
        g.setColor(new Color(24, 33, 133));
        
        g.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
@@ -60,7 +71,8 @@ public class GamePanel extends JPanel implements ActionListener
        {
            g.drawImage(ghouls.get(i).getImage(), ghouls.get(i).getX(), ghouls.get(i).getY(), ghouls.get(i).getWidth(), ghouls.get(i).getHeight(), this);
        }
-               
+       
+       
        Toolkit.getDefaultToolkit().sync();
     }
     
@@ -154,6 +166,12 @@ public class GamePanel extends JPanel implements ActionListener
             ghouls.add(ghoul4);
     }
     
+    public void createGrass()
+    {
+        Grass gr1 = new Grass(280, 250);
+        grass.add(gr1);
+    }
+    
     public void checkCollisions()
     {
        for(int i = 0; i < level.size(); i++)//Wall Check
@@ -185,6 +203,17 @@ public class GamePanel extends JPanel implements ActionListener
                }
            }
        }
+       
+       for(int i = 0; i < grass.size(); i++)// grass 
+       {
+           if(grass.get(i).getVis() && player.getBounds().contains(grass.get(i).getBounds()))
+           {
+               grass.get(i).setVis(false);
+               
+           }
+           
+       }
+       
     }
     
     private class TAdapter extends KeyAdapter
