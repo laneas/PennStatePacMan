@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,8 @@ public class GamePanel extends JPanel implements ActionListener
     ArrayList<Rectangle> level;
     ArrayList<Ghoul> ghouls;
     ArrayList<Grass> grass;
+    JLabel playerLives;
+    JLabel playerScore;
     
     public GamePanel()
     {
@@ -48,7 +51,6 @@ public class GamePanel extends JPanel implements ActionListener
         createLevel();
         createEnemies();
         createGrass();
-        
     }
     
     @Override
@@ -64,7 +66,10 @@ public class GamePanel extends JPanel implements ActionListener
        }
        g.setColor(new Color(24, 33, 133));
        
-       g.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
+       if(player.checkCondition())
+       {
+           g.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
+       }
        g.drawImage(new ImageIcon("src//pennstatepacman//images//logo.jpg").getImage(), 600, 400, 134, 250, this);
        
        for(int i = 0; i < level.size(); i++)
@@ -90,7 +95,7 @@ public class GamePanel extends JPanel implements ActionListener
           lives.setBounds(600, 50, 100, 100);
           lives.setFont(f);
           add(lives);
-        JLabel playerLives = new JLabel(Integer.toString(player.getLives()));
+        playerLives = new JLabel(Integer.toString(player.getLives()));
           playerLives.setBounds(700, 50, 100, 100);
           playerLives.setFont(f);
           add(playerLives);
@@ -106,7 +111,7 @@ public class GamePanel extends JPanel implements ActionListener
           score.setBounds(600, 250, 100, 100);
           score.setFont(f);
           add(score);
-        JLabel playerScore = new JLabel(Integer.toString(player.getScore()));
+        playerScore = new JLabel(Integer.toString(player.getScore()));
           playerScore.setBounds(700, 250, 100, 100);
           playerScore.setFont(f);
           add(playerScore);
@@ -205,8 +210,48 @@ public class GamePanel extends JPanel implements ActionListener
     
     public void createGrass()
     {
-        Grass gr1 = new Grass(280, 250);
-        grass.add(gr1);
+        boolean clear = false;
+        int counter = 0;
+        for(int i = 10; i < 550; i++)
+        {
+            for(int j = 10; j < 580; j++)
+            {
+                if(i % 20 == 0 && j % 20 == 0)
+                {
+                    for(int k = 0; k <  level.size(); k++)
+                    {
+                        if(!level.get(k).getBounds().contains(new Point(i, j)))
+                        {
+                            clear = true;
+                        }
+                        else
+                        {
+                            clear = false;
+                        }
+                    }
+                    for(int k = 0; k < grass.size(); k++)
+                    {
+                        if(!grass.get(k).getBounds().contains(new Point(i, j)))
+                        {
+                            clear = true;
+                        }
+                        else
+                        {
+                            clear = false;
+                        }
+                    }
+                }
+                if(clear)
+                {
+                    Grass g = new Grass(i, j);
+                    System.out.println("Location: "+i+", "+j);
+                    grass.add(g);
+                    counter++;
+                }
+            }
+        }
+        
+        System.out.println("Number of tiles: "+counter);
     }
     
     public void checkCollisions()
@@ -231,6 +276,7 @@ public class GamePanel extends JPanel implements ActionListener
            if(player.getBounds().intersects(ghouls.get(i).getBounds()))//player check
            {
                player.setLives(player.getLives() - 1);
+               playerLives.setText(Integer.toString(player.getLives()));
            }
            for(int j = 0; j < ghouls.size(); j++)
            {
@@ -240,17 +286,15 @@ public class GamePanel extends JPanel implements ActionListener
                }
            }
        }
-       
-       for(int i = 0; i < grass.size(); i++)// grass 
+       for(int i = 0; i < grass.size(); i++)// grass check
        {
-           if(grass.get(i).getVis() && player.getBounds().contains(grass.get(i).getBounds()))
+           if(grass.get(i).getVis() && player.getBounds().intersects(grass.get(i).getBounds()))
            {
                grass.get(i).setVis(false);
-               
+               player.setScore(player.getScore() + 3);
+               playerScore.setText(Integer.toString(player.getScore()));
            }
-           
        }
-       
     }
     
     private class TAdapter extends KeyAdapter
