@@ -2,6 +2,7 @@ package pennstatepacman;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -10,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -36,6 +39,8 @@ public class GamePanel extends JPanel implements ActionListener
         addKeyListener(new TAdapter());
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setVisible(true);
+        setLayout(null);
+        createScoreBoard();
         setBackground(new Color(255, 250, 244));
         t.start();
         createLevel();
@@ -49,6 +54,7 @@ public class GamePanel extends JPanel implements ActionListener
        g.setColor(new Color(24, 33, 133));
        
        g.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
+       g.drawImage(new ImageIcon("src//pennstatepacman//images//logo.jpg").getImage(), 600, 400, 134, 250, this);
        
        for(int i = 0; i < level.size(); i++)
        {
@@ -64,10 +70,41 @@ public class GamePanel extends JPanel implements ActionListener
        Toolkit.getDefaultToolkit().sync();
     }
     
+    public void createScoreBoard()
+    {
+        Font f = new Font("Impact", Font.BOLD, 20);
+        
+        JLabel lives = new JLabel("LIVES: ");
+          lives.setBounds(600, 50, 100, 100);
+          lives.setFont(f);
+          add(lives);
+        JLabel playerLives = new JLabel(Integer.toString(player.getLives()));
+          playerLives.setBounds(700, 50, 100, 100);
+          playerLives.setFont(f);
+          add(playerLives);
+        JLabel high = new JLabel("HIGH: ");
+          high.setBounds(600, 150, 100, 100);
+          high.setFont(f);
+          add(high);
+        JLabel highscore = new JLabel("0000"); //<--------- will read value from text file
+          highscore.setBounds(700, 150, 100, 100);
+          highscore.setFont(f);
+          add(highscore);
+        JLabel score = new JLabel("SCORE: ");
+          score.setBounds(600, 250, 100, 100);
+          score.setFont(f);
+          add(score);
+        JLabel playerScore = new JLabel(Integer.toString(player.getScore()));
+          playerScore.setBounds(700, 250, 100, 100);
+          playerScore.setFont(f);
+          add(playerScore);
+        
+    }
+    
     public void createLevel()
     {   
-        int mx = 0;
-        int my = 0;
+        int mx = 1;
+        int my = 1;
         
         Rectangle leftSide = new Rectangle(0, 0, 10, 600);
         Rectangle rightSide = new Rectangle(590, 0, 10, 600);
@@ -141,13 +178,13 @@ public class GamePanel extends JPanel implements ActionListener
     public void createEnemies()
     {
             Ghoul ghoul1 = new Ghoul(10 ,10);
-                ghoul1.setImage("src//pennstatepacman//images//Ill.png");
+              ghoul1.setImage("src//pennstatepacman//images//Ill.png");
             Ghoul ghoul2 = new Ghoul(558, 10);
-                ghoul2.setImage("src//pennstatepacman//images//msu.png");
+              ghoul2.setImage("src//pennstatepacman//images//msu.png");
             Ghoul ghoul3 = new Ghoul(10, 558);
-                ghoul3.setImage("src//pennstatepacman//images//msu.png");
+              ghoul3.setImage("src//pennstatepacman//images//msu.png");
             Ghoul ghoul4 = new Ghoul(558, 558);
-                ghoul4.setImage("src//pennstatepacman//images//Ill.png");
+              ghoul4.setImage("src//pennstatepacman//images//Ill.png");
             ghouls.add(ghoul1);
             ghouls.add(ghoul2);
             ghouls.add(ghoul3);

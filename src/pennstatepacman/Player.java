@@ -28,11 +28,11 @@ public class Player
     {
         x = xLocation;
         y = yLocation;
-        speed = 5; //determines how far the player moves with each cycle
+        speed = 2; //determines how far the player moves with each cycle
         moveX = 0;
         moveY = 0;
         lives = 3;
-        score = 0;
+        score = 0000;
         setImage("src//pennstatepacman//images//lion.png");//<--------Change this value once we have an image for the player
     }
     
@@ -153,6 +153,15 @@ public class Player
         return lives;
     }
     
+    public void setScore(int theScore)
+    {
+        score = theScore;
+    }
+    
+    public int getScore()
+    {
+        return score;
+    }
     public Rectangle getBounds()
     {
         return new Rectangle(x, y, width, height);
