@@ -121,8 +121,8 @@ public class GamePanel extends JPanel implements ActionListener
     
     public void createLevel()
     {   
-        int mx = 1;
-        int my = 1;
+        int mx = 3;
+        int my = 3;
         
         Rectangle leftSide = new Rectangle(0, 0, 10, 600);
         Rectangle rightSide = new Rectangle(570, 0, 30, 600);
@@ -211,7 +211,6 @@ public class GamePanel extends JPanel implements ActionListener
     
     public void createGrass()
     {
-        int counter = 0;
         for(int i = 0; i < 600; i++)
         {
             for(int j = 0; j < 600; j++)
@@ -220,7 +219,6 @@ public class GamePanel extends JPanel implements ActionListener
                 {
                     Grass g = new Grass(i, j);
                     grass.add(g);
-                    counter++;
                 }
             }
         }
@@ -259,6 +257,16 @@ public class GamePanel extends JPanel implements ActionListener
        {
            if(player.getBounds().intersects(ghouls.get(i).getBounds()))//player check
            {
+               player.setX(280);
+               player.setY(320);
+               ghouls.get(0).setX(10);
+               ghouls.get(0).setY(10);
+               ghouls.get(1).setX(540);
+               ghouls.get(1).setY(10);
+               ghouls.get(2).setX(10);
+               ghouls.get(2).setY(558);
+               ghouls.get(3).setX(540);
+               ghouls.get(3).setY(558);
                player.setLives(player.getLives() - 1);
                playerLives.setText(Integer.toString(player.getLives()));
            }

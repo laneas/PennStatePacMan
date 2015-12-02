@@ -128,9 +128,21 @@ public class Player
         return x;
     }
     
+        
+    public void setX(int theX)
+    {
+        x = theX;
+    }
+    
     public int getY()
     {
         return y;
+    }
+    
+        
+    public void setY(int theY)
+    {
+        y = theY;
     }
     
     public int getHeight()
