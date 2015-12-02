@@ -57,19 +57,12 @@ public class GamePanel extends JPanel implements ActionListener
     public void paintComponent(Graphics g)
     {
        super.paintComponent(g);
-       for(int i= 0; i< grass.size(); i++)
-       {
-           if(grass.get(i).getVis())
-           {
-             g.drawImage(grass.get(i).getImage(), grass.get(i).getX(), grass.get(i).getY(), grass.get(i).getWidth(), grass.get(i).getHeight(), this);
-           }
-       }
        g.setColor(new Color(24, 33, 133));
        
-       if(player.checkCondition())
-       {
+       //if(player.checkCondition())
+       //{
            g.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
-       }
+       //}
        g.drawImage(new ImageIcon("src//pennstatepacman//images//logo.jpg").getImage(), 600, 400, 134, 250, this);
        
        for(int i = 0; i < level.size(); i++)
@@ -81,6 +74,14 @@ public class GamePanel extends JPanel implements ActionListener
        for(int i = 0; i < ghouls.size(); i++)
        {
            g.drawImage(ghouls.get(i).getImage(), ghouls.get(i).getX(), ghouls.get(i).getY(), ghouls.get(i).getWidth(), ghouls.get(i).getHeight(), this);
+       }
+       
+       for(int i= 0; i< grass.size(); i++)
+       {
+           if(grass.get(i).getVis())
+           {
+             g.drawImage(grass.get(i).getImage(), grass.get(i).getX(), grass.get(i).getY(), grass.get(i).getWidth(), grass.get(i).getHeight(), this);
+           }
        }
        
        
@@ -210,48 +211,31 @@ public class GamePanel extends JPanel implements ActionListener
     
     public void createGrass()
     {
-        boolean clear = false;
         int counter = 0;
-        for(int i = 10; i < 550; i++)
+        for(int i = 0; i < 600; i++)
         {
-            for(int j = 10; j < 580; j++)
+            for(int j = 0; j < 600; j++)
             {
                 if(i % 20 == 0 && j % 20 == 0)
                 {
-                    for(int k = 0; k <  level.size(); k++)
-                    {
-                        if(!level.get(k).getBounds().contains(new Point(i, j)))
-                        {
-                            clear = true;
-                        }
-                        else
-                        {
-                            clear = false;
-                        }
-                    }
-                    for(int k = 0; k < grass.size(); k++)
-                    {
-                        if(!grass.get(k).getBounds().contains(new Point(i, j)))
-                        {
-                            clear = true;
-                        }
-                        else
-                        {
-                            clear = false;
-                        }
-                    }
-                }
-                if(clear)
-                {
                     Grass g = new Grass(i, j);
-                    System.out.println("Location: "+i+", "+j);
                     grass.add(g);
                     counter++;
                 }
             }
         }
         
-        System.out.println("Number of tiles: "+counter);
+        for(int i = 0; i < level.size(); i++)
+        {
+            for(int j = 0; j < grass.size(); j++)
+            {
+                if(level.get(i).intersects(grass.get(j).getBounds()))
+                {
+                    grass.get(j).setVis(false);
+                }
+            }
+        }
+
     }
     
     public void checkCollisions()
@@ -293,6 +277,19 @@ public class GamePanel extends JPanel implements ActionListener
                grass.get(i).setVis(false);
                player.setScore(player.getScore() + 3);
                playerScore.setText(Integer.toString(player.getScore()));
+           }
+       }
+       
+       for(int i = 0; i < grass.size(); i++)
+       {
+           int counter = 0;
+           if(!grass.get(i).getVis())
+           {
+               counter++;
+           }
+           if(counter == grass.size())
+           {
+               System.out.println("you win");
            }
        }
     }
