@@ -125,9 +125,9 @@ public class GamePanel extends JPanel implements ActionListener
         int my = 1;
         
         Rectangle leftSide = new Rectangle(0, 0, 10, 600);
-        Rectangle rightSide = new Rectangle(590, 0, 10, 600);
+        Rectangle rightSide = new Rectangle(570, 0, 30, 600);
         Rectangle topSide = new Rectangle(0, 0, 600, 10);
-        Rectangle bottomSide = new Rectangle(0, 600, 600, 10);
+        Rectangle bottomSide = new Rectangle(0, 580, 600, 20);
         
         Rectangle r1 = new Rectangle(40, 40, 60 - mx, 120 - my);
         Rectangle r2 = new Rectangle(120, 40, 60 - mx, 120 - my);
@@ -197,11 +197,11 @@ public class GamePanel extends JPanel implements ActionListener
     {
             Ghoul ghoul1 = new Ghoul(10 ,10);
               ghoul1.setImage("src//pennstatepacman//images//Ill.png");
-            Ghoul ghoul2 = new Ghoul(558, 10);
+            Ghoul ghoul2 = new Ghoul(540, 10);
               ghoul2.setImage("src//pennstatepacman//images//msu.png");
             Ghoul ghoul3 = new Ghoul(10, 558);
               ghoul3.setImage("src//pennstatepacman//images//msu.png");
-            Ghoul ghoul4 = new Ghoul(558, 558);
+            Ghoul ghoul4 = new Ghoul(540, 558);
               ghoul4.setImage("src//pennstatepacman//images//Ill.png");
             ghouls.add(ghoul1);
             ghouls.add(ghoul2);
