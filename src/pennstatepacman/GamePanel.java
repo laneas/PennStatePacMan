@@ -11,9 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -28,6 +33,8 @@ public class GamePanel extends JPanel implements ActionListener
     ArrayList<Grass> grass;
     JLabel playerLives;
     JLabel playerScore;
+    JLabel highscore;
+    boolean paused;
     
     public GamePanel()
     {
@@ -41,6 +48,7 @@ public class GamePanel extends JPanel implements ActionListener
         ghouls = new ArrayList<Ghoul>();
         grass = new ArrayList<Grass>();
         player = new Player(280, 320);
+        paused = false;
         addKeyListener(new TAdapter());
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setVisible(true);
@@ -59,10 +67,11 @@ public class GamePanel extends JPanel implements ActionListener
        super.paintComponent(g);
        g.setColor(new Color(24, 33, 133));
        
-       //if(player.checkCondition())
-       //{
+       if(player.checkCondition())
+       {
            g.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), this);
-       //}
+       }
+
        g.drawImage(new ImageIcon("src//pennstatepacman//images//logo.jpg").getImage(), 600, 400, 134, 250, this);
        
        for(int i = 0; i < level.size(); i++)
@@ -82,6 +91,10 @@ public class GamePanel extends JPanel implements ActionListener
            {
              g.drawImage(grass.get(i).getImage(), grass.get(i).getX(), grass.get(i).getY(), grass.get(i).getWidth(), grass.get(i).getHeight(), this);
            }
+           else
+           {
+               grass.remove(i);
+           }
        }
        
        
@@ -91,6 +104,21 @@ public class GamePanel extends JPanel implements ActionListener
     public void createScoreBoard()
     {
         Font f = new Font("Impact", Font.BOLD, 20);
+        int highScore = 0;
+        String highPlayer = "aaa";
+        try
+        {
+            Scanner in = new Scanner(new FileReader("src//pennstatepacman//images//score.txt"));
+            highScore = Integer.parseInt(in.next());
+            highPlayer = in.next();
+            in.close();
+        }
+        catch(FileNotFoundException fnfe)
+        {
+            System.out.println(fnfe);
+            highScore = 0;
+            highPlayer = "AAA";
+        }
         
         JLabel lives = new JLabel("LIVES: ");
           lives.setBounds(600, 50, 100, 100);
@@ -100,11 +128,11 @@ public class GamePanel extends JPanel implements ActionListener
           playerLives.setBounds(700, 50, 100, 100);
           playerLives.setFont(f);
           add(playerLives);
-        JLabel high = new JLabel("HIGH: ");
+        JLabel high = new JLabel("HIGH: "+highPlayer);
           high.setBounds(600, 150, 100, 100);
           high.setFont(f);
           add(high);
-        JLabel highscore = new JLabel("0000"); //<--------- will read value from text file
+        highscore = new JLabel(Integer.toString(highScore)); //<--------- will read value from text file
           highscore.setBounds(700, 150, 100, 100);
           highscore.setFont(f);
           add(highscore);
@@ -269,6 +297,15 @@ public class GamePanel extends JPanel implements ActionListener
                ghouls.get(3).setY(558);
                player.setLives(player.getLives() - 1);
                playerLives.setText(Integer.toString(player.getLives()));
+               
+               try
+               {
+                   Thread.sleep(1000);
+               }
+               catch(InterruptedException ex)
+               {
+                   System.out.println(ex);
+               }
            }
            for(int j = 0; j < ghouls.size(); j++)
            {
@@ -288,17 +325,28 @@ public class GamePanel extends JPanel implements ActionListener
            }
        }
        
-       for(int i = 0; i < grass.size(); i++)
+       if(grass.size() == 0)
        {
-           int counter = 0;
-           if(!grass.get(i).getVis())
-           {
-               counter++;
-           }
-           if(counter == grass.size())
-           {
-               System.out.println("you win");
-           }
+           t.stop();
+            String s = (String)JOptionPane.showInputDialog("You Won!");
+            if(Integer.parseInt(playerScore.getText()) > Integer.parseInt(highscore.getText()))
+            {
+                try
+                {
+                    PrintWriter write = new PrintWriter("src//pennstatepacman//images//score.txt");
+                    {
+                        String name = Character.toString(s.charAt(0)) + Character.toString(s.charAt(1)) + Character.toString(s.charAt(2));
+                        name = name.toUpperCase();
+                        write.println(playerScore.getText());
+                        write.println(name);
+                    }
+                    write.close();
+                }
+                catch(FileNotFoundException fnfe)
+                {
+                    System.out.println(fnfe);
+                }
+            }
        }
     }
     
@@ -307,17 +355,34 @@ public class GamePanel extends JPanel implements ActionListener
         @Override
         public void keyReleased(KeyEvent ke)
         {
-            player.keyReleased(ke);
-            player.move();
-            repaint();
+            int key = ke.getKeyCode();
+            if(key == KeyEvent.VK_BACK_SPACE)
+            {
+                if(!paused)
+                {
+                    t.stop();
+                    paused = true;
+                    player.undoMove();
+                }
+                else if(paused)
+                {
+                    player.undoMove();
+                    t.start();
+                    paused = false;
+                }
+            }
         }
         
         @Override
         public void keyPressed(KeyEvent ke)
         {
-            player.keyPressed(ke);
-            player.move();
-            repaint();
+            if(!paused)
+            {
+                player.keyReleased(ke);
+                player.move();
+                player.undoMove();
+                repaint();
+            }
         }
     }
     
@@ -332,8 +397,33 @@ public class GamePanel extends JPanel implements ActionListener
                 ghouls.get(i).decideMove(player.getX(), player.getY());
                 ghouls.get(i).move();
             }
+            player.move();
             checkCollisions();
             repaint();
+            
+            if(!player.checkCondition())
+            {
+                String s = (String)JOptionPane.showInputDialog("You Lost!");
+                if(Integer.parseInt(playerScore.getText()) > Integer.parseInt(highscore.getText()))
+                {
+                    try
+                    {
+                        PrintWriter write = new PrintWriter("src//pennstatepacman//images//score.txt");
+                        {
+                            String name = Character.toString(s.charAt(0)) + Character.toString(s.charAt(1)) + Character.toString(s.charAt(2));
+                            name = name.toUpperCase();
+                            write.println(playerScore.getText());
+                            write.println(name);
+                        }
+                        write.close();
+                    }
+                    catch(FileNotFoundException fnfe)
+                    {
+                        System.out.println(fnfe);
+                    }
+                }
+                t.stop();
+            }
         }
     }
 }

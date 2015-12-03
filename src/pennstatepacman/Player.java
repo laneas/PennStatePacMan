@@ -28,7 +28,7 @@ public class Player
     {
         x = xLocation;
         y = yLocation;
-        speed = 2; //determines how far the player moves with each cycle
+        speed = 1; //determines how far the player moves with each cycle
         moveX = 0;
         moveY = 0;
         lives = 3;
